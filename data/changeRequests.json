@@ -1,0 +1,17 @@
+[
+  {
+    "id": "fd52eb59-49b3-4aed-bc8b-200c0a80350b",
+    "employeeId": "ac322dac-9248-4b6f-8b48-45c6d9132b56",
+    "type": "timeCorrection",
+    "payload": {
+      "date": "2025-12-19",
+      "startTime": "15:05",
+      "endTime": "19:05"
+    },
+    "createdAt": "2025-12-19T15:06:35.845Z",
+    "status": "rejected",
+    "reviewerId": "103966b0-4543-47e1-9344-97ea279db7e0",
+    "reviewComment": null,
+    "reviewedAt": "2025-12-19T15:07:01.931Z"
+  }
+]

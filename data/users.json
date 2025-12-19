@@ -1,0 +1,14 @@
+[
+  {
+    "id": "103966b0-4543-47e1-9344-97ea279db7e0",
+    "email": "admin@gmail.com",
+    "passwordHash": "$2b$10$YbnxPbUzxdX6D.QIay9M8.RLonvPXtcHGwXkQI9TV35LMPB4zXxWq",
+    "role": "admin",
+    "fullName": "Admin User",
+    "position": "HR",
+    "department": "People",
+    "status": "active",
+    "createdAt": "2025-01-01T09:00:00.000Z",
+    "updatedAt": "2025-01-01T09:00:00.000Z"
+  }
+]

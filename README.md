@@ -1,36 +1,123 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Інструкція для викладача: як користуватися застосунком «Облік робочого часу»
 
-## Getting Started
+## 1) Що це за застосунок
+Це веб‑застосунок для обліку робочого часу працівників:
+- працівник може запускати/зупиняти таймер (фіксація сеансів роботи)
+- переглядати табель за період
+- створювати заявки (наприклад, коригування часу)
+- адміністратор може додавати/видаляти працівників, керувати довідниками (відділи/посади), переглядати звіти та підтверджувати заявки
 
-First, run the development server:
+Застосунок зроблено на **Next.js (App Router) + TypeScript + Tailwind**, дані зберігаються у **JSON‑файлах** (без бази даних).
 
+---
+
+## 2) Вимоги
+- Node.js 18+ (рекомендовано)
+
+---
+
+## 3) Запуск
+1. Встановити залежності:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Запустити dev‑сервер:
+```bash
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Відкрити в браузері:
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 4) Тестові облікові записи (демо‑дані)
+Дані лежать у `data/users.json`.
 
-To learn more about Next.js, take a look at the following resources:
+### Адміністратор
+- Email: `admin@corp.local`
+- Пароль: `admin12345`
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 5) Основні сторінки
+### 5.1) Вхід
+- Сторінка: `/login`
+- Ввести email + пароль
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 5.2) Головна (Dashboard)
+- Сторінка: `/`
+- «Таймер роботи»: кнопки **Почати** / **Завершити**
+- «Останні записи»: показує останні 7 записів за поточний період
 
-## Deploy on Vercel
+### 5.3) Табель
+- Сторінка: `/timesheets`
+- Вибрати період «Від» / «До»
+- Натиснути **Завантажити**
+- Показує список записів часу та суму годин за період
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 5.4) Заявки
+- Сторінка: `/requests`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Для працівника:**
+- Створення заявки:
+  - вибрати тип
+  - вибрати дату
+  - для «Коригування часу»:
+    1) вибрати конкретний **сеанс** роботи зі списку
+    2) вказати «Новий початок» та «Новий кінець»
+  - натиснути **Створити**
+
+**Для адміністратора:**
+- бачить заявки зі статусом `pending`
+- може натиснути **Підтвердити** або **Відхилити**
+- якщо підтверджено «Коригування часу» — відповідний сеанс у `TimeEntry` буде виправлено
+
+### 5.5) Працівники (адмін)
+- Сторінка: `/employees`
+- Додавання працівника:
+  - ввести email, пароль, ПІБ
+  - вибрати **відділ** та **посаду** (із довідників)
+  - натиснути **Створити**
+
+- Видалення працівника:
+  - натиснути **Видалити**
+  - підтвердити у модальному вікні
+  - видаляється каскадно: працівник + користувач + записи часу + заявки
+
+### 5.6) Звіти (адмін)
+- Сторінка: `/reports`
+- Вибрати період «Від» / «До»
+- Натиснути **Порахувати**
+- Показує статистику по працівниках (відпрацьовано/план/різниця тощо)
+
+---
+
+## 6) Де зберігаються дані
+Усі дані лежать у папці `data/`:
+- `data/users.json` — користувачі (email, роль, ПІБ, відділ/посада)
+- `data/employees.json` — профілі працівників (графік, години/день)
+- `data/timeEntries.json` — записи робочого часу (startAt/endAt/durationSeconds)
+- `data/changeRequests.json` — заявки
+- `data/departments.json` — довідник відділів
+- `data/positions.json` — довідник посад
+
+---
+
+## 7) Типовий сценарій перевірки (для демонстрації)
+1. Увійти як працівник.
+2. На головній сторінці натиснути **Почати**, почекати 5–10 секунд.
+3. Натиснути **Завершити**.
+4. Перейти у `/timesheets` і завантажити табель за останні 7–30 днів — переконатися, що запис з’явився.
+5. Перейти у `/requests` → створити «Коригування часу»:
+   - вибрати дату
+   - вибрати сеанс
+   - змінити час (наприклад, 09:00–18:00)
+6. Увійти як адміністратор.
+7. Перейти у `/requests` і підтвердити заявку.
+8. Повернутися у `/timesheets` працівника та перевірити, що час оновився.
+9. Перейти у `/reports` (адмін) → обрати період → натиснути **Порахувати**.
+
+---

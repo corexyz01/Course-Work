@@ -24,3 +24,31 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.seasonal-bg {
+  background: radial-gradient(1200px 600px at 20% -10%, rgba(200, 230, 255, 0.35), transparent 60%),
+    radial-gradient(900px 500px at 90% 0%, rgba(255, 220, 245, 0.18), transparent 55%),
+    var(--background);
+}
+
+.seasonal-twinkle {
+  background-image: radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.45), transparent 2px),
+    radial-gradient(circle at 75% 30%, rgba(255, 255, 255, 0.35), transparent 2px),
+    radial-gradient(circle at 50% 70%, rgba(255, 255, 255, 0.25), transparent 2px),
+    radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.30), transparent 2px);
+  opacity: 0.35;
+  filter: blur(0.2px);
+  animation: seasonalTwinkle 6s ease-in-out infinite;
+}
+
+@keyframes seasonalTwinkle {
+  0% {
+    opacity: 0.22;
+  }
+  50% {
+    opacity: 0.45;
+  }
+  100% {
+    opacity: 0.22;
+  }
+}
