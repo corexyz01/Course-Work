@@ -38,7 +38,7 @@ http://localhost:3000
 Дані лежать у `data/users.json`.
 
 ### Адміністратор
-- Email: `admin@corp.local`
+- Email: `admin@gmail.com`
 - Пароль: `admin12345`
 ---
 
